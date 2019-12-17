@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.soft.dao.base">
+
+	<select id="dynaSql" parameterType="java.lang.String" resultType="java.util.HashMap">
+		<![CDATA[
+			${value}
+		]]>
+	</select>
+	
+	<select id="countSql" parameterType="java.lang.String" resultType="java.lang.Long">
+		<![CDATA[
+			${value}
+		]]>
+	</select>
+
+	<sql id="pagination">
+		<if test="orders!=null and orders.size>0">
+        	order by
+	        <foreach item="sort" index="index" collection="orders" open=" "  
+	            separator=", " close=" ">  
+        	${sort.field}  ${sort.style.name}
+        	</foreach>
+        </if>
+        <!--<if test="start!=null and limit!=null">
+        	LIMIT #{start}, #{limit}
+        </if>-->
+	</sql>
+
+	<sql id="conditionSql">
+		<where>
+			1 = 1
+		  <include refid="com.soft.dao.base.conditionSqlNoWhere"/>
+		</where>
+	    <include refid="com.soft.dao.base.pagination"/>
+	</sql>
+	<sql id="conditionSqlNoWhere">
+		<if test="conditions != null and conditions.size()>0">
+			AND
+		</if>
+		<if test="conditions != null">
+			<foreach item="item" index="index" collection="conditions" open=" "  
+	            separator="and" close=" ">  
+	            <choose>
+	                <when test="item.script">
+	                		( ${item.value} )
+	                </when>	    
+	                <when test="' IN ' .toString() == item.matchType.operator or ' NOT IN ' .toString() == item.matchType.operator">  
+			            <if test="item.value!=null and item.value.length>0">
+			            	${item.fieldName} ${item.matchType.operator} 
+			                <foreach collection="item.value" item="id"
+			                    index="index" open="(" close=")" separator=",">
+			                    #{id}
+			                </foreach>
+			            </if>
+			             <if test="item.value!=null and item.value.length==0">
+			            	1!=1
+			            </if>
+	                </when>
+	                <when test="' LIKE ' .toString() == item.matchType.operator">  
+	   	                    ${item.fieldName} ${item.matchType.operator} CONCAT(CONCAT('%', #{item.value}),'%')               	
+	                </when>
+	                
+	                <when test="' IS NULL ' .toString() == item.matchType.operator">  
+	   	                    ${item.fieldName} ${item.matchType.operator}               	
+	                </when>
+	                
+	                <when test="' IS NOT NULL ' .toString() == item.matchType.operator">  
+	   	                    ${item.fieldName} ${item.matchType.operator}               	
+	                </when>
+	                
+	                <otherwise>  
+	                    ${item.fieldName} ${item.matchType.operator} #{item.value}  
+	                </otherwise>		                  
+	            </choose>  
+	        </foreach>
+		</if>
+		
+	</sql>
+</mapper>

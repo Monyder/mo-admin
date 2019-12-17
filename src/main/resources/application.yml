@@ -1,0 +1,31 @@
+server:
+  port: 8099
+  servlet:
+    context-path: /base
+  max-http-header-size: 4048576
+  undertow:
+    direct-buffers: true
+    max-http-post-size: -1B
+spring:
+  profiles:
+    include: dev-druid
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
+
+mybatis:
+  type-aliases-package: mon.sof.project.entity
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql
+
+logging:
+  config: classpath:config/logback-spring.xml
+
+myConfig:
+  AccessDirectory: /upload/**
+  MappingUrl: /usr/local/jail/upload/
