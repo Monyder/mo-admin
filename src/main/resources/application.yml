@@ -8,13 +8,12 @@ server:
     max-http-post-size: -1B
 spring:
   profiles:
-    include: dev-druid
+    include: dev
   http:
     encoding:
       charset: utf-8
       force: true
       enabled: true
-
 mybatis:
   type-aliases-package: mon.sof.project.entity
 pagehelper:
@@ -22,10 +21,11 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: countSql
-
 logging:
-  config: classpath:config/logback-spring.xml
+  level:
+    mon:
+      sof: debug
+  file:
+    max-history: 30
+    max-size: 512MB
 
-myConfig:
-  AccessDirectory: /upload/**
-  MappingUrl: /usr/local/jail/upload/

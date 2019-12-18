@@ -8,57 +8,90 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
-@PropertySource(value = {"classpath:config/system-config/druid.properties"})
 @Configuration
 public class DruidConfig {
+
+
+
     */
 /**
      * 连接池登录地址
+     * @Author  zhangxiaomei
+     * @Date    2019-12-18 10:26:46
+     * @Param
+     * @Return
      *//*
 
-    @Value("${druidUrl}")
+    @Value("${myConfig.druidUrl}")
     private String druidUrl;
+
 
     */
 /**
      * 连接池访问白名单
+     * @Author  zhangxiaomei
+     * @Date    2019-12-18 10:27:00
+     * @Param
+     * @Return
      *//*
 
-    @Value("${allow}")
+    @Value("${myConfig.allow}")
     private String allow;
+
+
 
     */
 /**
-     * 连接池访问黑名单
+     * 连接池访问白名单
+     * @Author  zhangxiaomei
+     * @Date    2019-12-18 10:27:09
+     * @Param
+     * @Return
      *//*
 
-    @Value("${deny}")
+    @Value("${myConfig.deny}")
     private String deny;
+
 
     */
 /**
      * 连接池登录账号
+     * @Author  zhangxiaomei
+     * @Date    2019-12-18 10:27:19
+     * @Param
+     * @Return
      *//*
 
-    @Value("${loginUsername}")
+    @Value("${myConfig.loginUsername}")
     private String loginUsername;
+
+
 
     */
 /**
      * 连接池登录密码
+     * @Author  zhangxiaomei
+     * @Date    2019-12-18 10:27:32
+     * @Param
+     * @Return
      *//*
 
-    @Value("${loginPassword}")
+    @Value("${myConfig.loginPassword}")
     private String loginPassword;
+
+
 
     */
 /**
      * 连接池是否能够重置数据
+     * @Author  zhangxiaomei
+     * @Date    2019-12-18 10:27:40
+     * @Param
+     * @Return
      *//*
 
-    @Value("${resetEnable}")
+    @Value("${myConfig.resetEnable}")
     private String resetEnable;
 
     @Bean

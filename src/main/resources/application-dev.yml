@@ -5,7 +5,6 @@ spring:
     url: jdbc:mysql://192.168.1.195:3306/jail?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: jail
     password: jail.wh
-
   druid:
     initialSize: 5
     minIdle: 5
@@ -21,3 +20,9 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     filters: stat,wall,log4j
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+logging:
+  path: D:/work/baseWork/base/logs
+  file: D:/work/baseWork/base/mony.log
+myConfig:
+  AccessDirectory: /upload/**
+  MappingUrl: D:/work/baseWork/base/upload/
