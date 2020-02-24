@@ -1,27 +1,37 @@
 package mon.sof.common.config.ErrorPages;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import mon.sof.common.web.base.ResultObj;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class ErrorPageAction {
     @RequestMapping(value = "/error400Page")
-    public String error400Page() {
-        return "404";
+    public ResultObj error400Page() {
+        ResultObj resultObj = new ResultObj();
+        resultObj.setResult("400");
+        resultObj.setData("服务器内部错误，请联系管理人员！");
+        return resultObj;
     }
     @RequestMapping(value = "/error401Page")
-    public String error401Page() {
-        return "401";
+    public ResultObj error401Page() {
+        ResultObj resultObj = new ResultObj();
+        resultObj.setResult("401");
+        resultObj.setData("服务器内部错误，请联系管理人员！");
+        return resultObj;
     }
     @RequestMapping(value = "/error404Page")
-    public String error404Page(Model model) {
-        model.addAttribute("code","6666666");
-        model.addAttribute("msg","服务器降级中......");
-        return "404";
+    public ResultObj error404Page() {
+        ResultObj resultObj = new ResultObj();
+        resultObj.setResult("404");
+        resultObj.setData("找不到页面，页面飞走了！");
+        return resultObj;
     }
     @RequestMapping(value = "/error500Page")
-    public String error500Page(Model model) {
-        return "500";
+    public ResultObj error500Page(){
+        ResultObj resultObj = new ResultObj();
+        resultObj.setResult("500");
+        resultObj.setData("服务器内部错误，请联系管理人员！");
+        return resultObj;
     }
 }
