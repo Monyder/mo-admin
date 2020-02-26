@@ -1,14 +1,13 @@
 
 package mon.sof.common.exception;
 
+
 /**
- * 异常基类
- * 
- * @author liyan
- * @created 2012-7-16 下午1:50:25
- * @since v1.0
- * @history
- * @see
+ * 异常总处理基类
+ * @Author  zhangxiaomei
+ * @Date    2020-02-24 13:14:37
+ * @Param
+ * @Return
  */
 public class BaseException extends RuntimeException {
 
