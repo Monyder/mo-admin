@@ -1,75 +1,30 @@
 package mon.sof.common.orm;
 
 
-import org.springframework.transaction.annotation.Transactional;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractBaseAction<T> implements IBaseAction<T> {
+public abstract class AbstractBaseAction<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements IBaseAction<T> {
 
 
-    public abstract IBaseAction<T> getDao();
+    public abstract IBaseAction<T> getMapper();
 
 
-    @Transactional
     @Override
-    public void addEntity(T t) {
-        getDao().addEntity(t);
-    }
-
-    @Transactional
-    @Override
-    public void batchAddEntity(List<T> list) {
-        getDao().batchAddEntity(list);
-    }
-
-    @Transactional
-    @Override
-    public void updateEntity(T t) {
-        getDao().updateEntity(t);
-    }
-
-    @Transactional
-    @Override
-    public void deleteEntity(Serializable id) {
-        getDao().deleteEntity(id);
-    }
-
-    @Transactional
-    @Override
-    public void bulkDelete(Serializable[] ids) {
-        getDao().bulkDelete(ids);
+    public List<T> findByCondition(Map params) {
+        return getMapper().findByCondition(params);
     }
 
     @Override
-    public T findById(Serializable id) {
-        return getDao().findById(id);
+    public List<T> findByCondition(List list) {
+        return getMapper().findByCondition(list);
     }
 
     @Override
-    public T assertEntityExistById(Serializable id) {
-        return getDao().assertEntityExistById(id);
-    }
-
-    @Override
-    public List<T> findAll() {
-        return getDao().findAll();
-    }
-
-    @Override
-    public List findByCondition(Map params) {
-        return getDao().findByCondition(params);
-    }
-
-    @Override
-    public List findByCondition(List list) {
-        return getDao().findByCondition(list);
-    }
-
-    @Override
-    public List findByCondition(List list,List orders) {
-        return getDao().findByCondition(list,orders);
+    public List<T> findByCondition(List list,List orders) {
+        return getMapper().findByCondition(list,orders);
     }
 }

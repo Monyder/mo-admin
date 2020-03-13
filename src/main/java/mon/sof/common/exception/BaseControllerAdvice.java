@@ -1,11 +1,11 @@
 package mon.sof.common.exception;
 
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import mon.sof.common.exception.entity.Resp;
-import mon.sof.common.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class BaseControllerAdvice {
-    private static Logger Log = LoggerFactory.getLogger(BaseControllerAdvice.class);
-
-
-
+    Log log = LogFactory.get();
 
     /**
      * 运行时异常
@@ -33,7 +30,7 @@ public class BaseControllerAdvice {
      */
     @ExceptionHandler(value = BaseException.class)
     public Resp baseExceptionHander(BaseException be){
-        Log.error("BaseExceptionHander" , be);
+        log.error("BaseExceptionHander" , be);
         return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR,be.getMessage(),null);
     }
 
@@ -48,8 +45,8 @@ public class BaseControllerAdvice {
 
     @ExceptionHandler(value = Exception.class)
     public Resp exceptionHander(Exception e){
-        Log.error("ExceptionHander",e);
-        if(StringUtil.isEmpty(e.getMessage())){
+        log.error("ExceptionHander",e);
+        if(StrUtil.isEmpty(e.getMessage())){
             return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR , "程序异常，请联系管理人员" , null);
         }
         return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR , e.getMessage(), null);

@@ -14,8 +14,25 @@ spring:
       charset: utf-8
       force: true
       enabled: true
-mybatis:
-  type-aliases-package: mon.sof.project.entity
+mybatis-plus:
+  mapper-locations:
+    - classpath*:mybatis/base/base.xml
+    - classpath*:mybatis/*.xml
+  type-aliases-package: mon.sof.project.**.entity
+  global-config:
+    db-config:
+      id-type: auto
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+    refresh: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
 pagehelper:
   helper-dialect: mysql
   reasonable: true
@@ -28,4 +45,3 @@ logging:
   file:
     max-history: 30
     max-size: 512MB
-
