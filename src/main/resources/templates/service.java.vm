@@ -15,7 +15,7 @@ import mon.sof.common.orm.IBaseAction;
 #if(${kotlin})
 interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
-public interface ${table.serviceName} extends ${superServiceClass}<${entity}>,IBaseAction<SysUser> {
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}>,IBaseAction<${entity}> {
 
 }
 #end
