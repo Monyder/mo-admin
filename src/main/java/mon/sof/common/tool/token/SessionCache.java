@@ -1,7 +1,5 @@
 package mon.sof.common.tool.token;
 
-import mon.sof.project.user.entity.SysUser;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
