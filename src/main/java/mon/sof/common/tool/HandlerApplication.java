@@ -39,7 +39,7 @@ public class HandlerApplication implements WebMvcConfigurer, WebServerFactoryCus
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(ConPath.PIC_UPLOAD).addResourceLocations("file:" + ConPath.PIC_PATH);
+        registry.addResourceHandler(Constant.PIC_UPLOAD).addResourceLocations("file:" + Constant.PIC_PATH);
     }
 
     /**

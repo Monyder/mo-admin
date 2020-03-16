@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings(value = {"rawtypes", "unchecked"})
-public class ConPath {
+public class Constant {
 
     public static final String PIC_UPLOAD;
     public static final String PIC_PATH;
@@ -15,14 +15,14 @@ public class ConPath {
     static {
         Yaml yaml = new Yaml();
         Map<Object, Object> map;
-        Map base = yaml.load(ConPath.class.getResourceAsStream("/application.yml"));
+        Map base = yaml.load(Constant.class.getResourceAsStream("/application.yml"));
         Map spring = (Map)base.get("spring");
         Map profiles = (Map)spring.get("profiles");
         if(profiles.get("include").equals("dev")){
-            Map base1 = yaml.load(ConPath.class.getResourceAsStream("/application-dev.yml"));
+            Map base1 = yaml.load(Constant.class.getResourceAsStream("/application-dev.yml"));
             map = (HashMap) base1.get("myConfig");
         }else{
-            Map base1 = yaml.load(ConPath.class.getResourceAsStream("/application-prod.yml"));
+            Map base1 = yaml.load(Constant.class.getResourceAsStream("/application-prod.yml"));
             map = (HashMap) base1.get("myConfig");
         }
         PIC_UPLOAD = (String) map.get("accessDirectory");
@@ -35,6 +35,6 @@ public class ConPath {
     }
 
 
-    private ConPath(){
+    private Constant(){
     }
 }
