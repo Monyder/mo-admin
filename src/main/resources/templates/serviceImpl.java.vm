@@ -26,11 +26,11 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 public class ${table.serviceImplName} extends AbstractBaseAction<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
     @Autowired
-    ${table.mapperName} SysUserMappers;
+    ${table.mapperName} ${table.mapperName}s;
 
     @Override
     public IBaseAction<${entity}> getMapper() {
-        return SysUserMappers;
+        return ${table.mapperName}s;
     }
 }
 #end
