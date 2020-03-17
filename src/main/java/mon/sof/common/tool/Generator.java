@@ -95,9 +95,18 @@ public class Generator {
                 // to do nothing
             }
         };
-        String templatePath = "/templates/mapper.xml.vm";
+        String templateService = "/templates/service.java.vm";
+        String templateMapper = "/templates/mapper.xml.vm";
         List<FileOutConfig> focList = new ArrayList<>();
-        focList.add(new FileOutConfig(templatePath) {
+        focList.add(new FileOutConfig(templateService) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/java/mon/sof/project/"
+                        + pc.getModuleName()+"/service/"
+                        + tableInfo.getEntityName()+"Service" + StringPool.DOT_JAVA;
+            }
+        });
+        focList.add(new FileOutConfig(templateMapper) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
@@ -109,10 +118,10 @@ public class Generator {
         mpg.setCfg(cfg);
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setEntity("templates/entity.java");
-        templateConfig.setService("templates/service.java");
+        templateConfig.setService(null);
         templateConfig.setController("templates/controller.java");
         templateConfig.setXml(null);
-        templateConfig.setServiceImpl("templates/serviceImpl.java");
+        templateConfig.setServiceImpl(null);
         templateConfig.setMapper("templates/mapper.java");
         mpg.setTemplate(templateConfig);
         StrategyConfig strategy = new StrategyConfig();
