@@ -31,7 +31,7 @@ public class BaseControllerAdvice {
     @ExceptionHandler(value = BaseException.class)
     public Resp baseExceptionHander(BaseException be){
         log.error("BaseExceptionHander" , be);
-        return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR,be.getMessage(),null);
+        return Resp.error(HttpStatus.HTTP_OK,"errMsg",be.getMessage());
     }
 
 
@@ -47,9 +47,9 @@ public class BaseControllerAdvice {
     public Resp exceptionHander(Exception e){
         log.error("ExceptionHander",e);
         if(StrUtil.isEmpty(e.getMessage())){
-            return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR , "程序异常，请联系管理人员" , null);
+            return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR , "errMsg" , "程序异常，请联系管理人员");
         }
-        return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR , e.getMessage(), null);
+        return Resp.error(HttpStatus.HTTP_INTERNAL_ERROR , "errMsg", e.getMessage());
     }
 
 }

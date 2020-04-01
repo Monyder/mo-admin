@@ -2,6 +2,7 @@ package mon.sof.common.filter;
 
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpStatus;
 import cn.hutool.log.LogFactory;
 import mon.sof.common.exception.BaseException;
 import mon.sof.common.tool.token.JWTHelper;
@@ -30,11 +31,17 @@ public class Filter implements HandlerInterceptor {
                 return true;
             }
         }
-        if(url.startsWith("portal")){
+        if (url.startsWith("error") || url.startsWith("portal")) {
+            if(url.startsWith("error")){
+                response.setStatus(HttpStatus.HTTP_NOT_FOUND);
+            }
             return true;
         }
         String token = null;
         Cookie[] cookies = request.getCookies();
+        if(cookies == null){
+            throw new BaseException("token为空，请重新登录！");
+        }
         for (Cookie cookie : cookies) {
             if(cookie.getName().equals(UserTokenTypeEnum.TOKEN.getName())){
                 token = cookie.getValue();
