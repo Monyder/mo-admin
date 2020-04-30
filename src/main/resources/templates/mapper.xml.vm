@@ -36,10 +36,7 @@
     </sql>
 
 #end
-    <select id="findByCondition" parameterType="map" resultMap="BaseResultMap">
-        <![CDATA[
-		SELECT * FROM ${table.name}
-		]]>
+    <select id="queryByMultiTable" parameterType="map" resultMap="BaseResultMap">
         <include refid="com.sof.mapper.base.conditionSql"/>
     </select>
 </mapper>

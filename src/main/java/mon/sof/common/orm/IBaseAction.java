@@ -1,37 +1,55 @@
 package mon.sof.common.orm;
 
 import mon.sof.common.orm.search.Condition;
+import mon.sof.common.orm.search.QueryField;
+import mon.sof.common.orm.search.QueryMulti;
 import mon.sof.common.orm.search.Sort;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IBaseAction<T> {
 
 
     /**
-     * @Title: findByCondition
-     * @Description: 根据条件查询信息
-     * @param conditions
-     * @return
+     * 通过多表查找
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-04-30 15:32:54
+     * @Param
+     * @Return
      */
-    List<T> findByCondition(@Param("conditions")List<Condition> conditions);
+    List<T> queryByMultiTable(QueryField queryField,
+                              List<QueryMulti> queryMultis);
+
 
     /**
-     * @Title: findByCondition
-     * @Description: 根据条件查询信息
-     * @param conditions
-     * @return
+     * 根据条件多表查找
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-04-30 15:32:54
+     * @Param
+     * @Return
      */
-    List<T> findByCondition(@Param("conditions")List<Condition> conditions,@Param("orders")List<Sort> orders);
+    List<T> queryByMultiTable(QueryField queryField,
+                              List<QueryMulti> queryMultis,
+                              List<Condition> conditions);
+
+
+
+
 
     /**
-     * @Description: 根据条件查询信息
-     * @param params
-     * @return
+     * 根据条件通过多表查找排序
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-04-30 15:32:54
+     * @Param
+     * @Return
      */
-    List<T> findByCondition(Map<String, Object> params);
-
+    List<T> queryByMultiTable(@Param("queryField") QueryField queryField,
+                              @Param("queryMultis") List<QueryMulti> queryMultis,
+                              @Param("conditions") List<Condition> conditions,
+                              @Param("orders") List<Sort> orders);
 
 }
