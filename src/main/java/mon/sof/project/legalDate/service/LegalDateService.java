@@ -18,6 +18,10 @@ import mon.sof.common.orm.AbstractBaseAction;
 @Service
 public class LegalDateService extends AbstractBaseAction<LegalDateMapper, LegalDate> {
 
+
+    /**
+     * 1111
+     */
     @Autowired
     LegalDateMapper LegalDateMappers;
 
