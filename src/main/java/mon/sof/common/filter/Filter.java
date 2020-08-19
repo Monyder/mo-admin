@@ -3,6 +3,7 @@ package mon.sof.common.filter;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONUtil;
 import cn.hutool.log.LogFactory;
 import mon.sof.common.exception.BaseException;
 import mon.sof.common.tool.token.JWTHelper;
@@ -51,6 +52,7 @@ public class Filter implements HandlerInterceptor {
             throw new BaseException("token为空，请重新登录！");
         }
         String tokenJson = JWTHelper.verifyToken4Login(token);
+        //TODO 开发中需要每次请求都需要更新Token
         SessionCache.put(UserTokenTypeEnum.TOKEN.getName(),tokenJson);
         return true;
     }
