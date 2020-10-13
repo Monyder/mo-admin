@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import mon.sof.common.exception.BaseException;
@@ -78,6 +79,7 @@ public class Generator {
         gc.setOpen(false);
         gc.setBaseResultMap(true);
         mpg.setGlobalConfig(gc);
+        gc.setDateType(DateType.ONLY_DATE);
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl(DATASOURCE_URL);
         // dsc.setSchemaName("public");
@@ -102,8 +104,8 @@ public class Generator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 return projectPath + "/src/main/java/mon/sof/project/"
-                        + pc.getModuleName()+"/service/"
-                        + tableInfo.getEntityName()+"Service" + StringPool.DOT_JAVA;
+                        + pc.getModuleName() + "/service/"
+                        + tableInfo.getEntityName() + "Service" + StringPool.DOT_JAVA;
             }
         });
         focList.add(new FileOutConfig(templateMapper) {
