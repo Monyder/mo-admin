@@ -22,13 +22,14 @@ open class ${entity}Service : ${entity}Service<${table.mapperName}, ${entity}>()
 }
 #else
 public class ${entity}Service extends AbstractBaseAction<${table.mapperName}, ${entity}> {
+    #set($mapperNameLowerCase = $table.mapperName.toLowerCase())
 
     @Autowired
-    ${table.mapperName} ${table.mapperName}s;
+    private ${table.mapperName} ${mapperNameLowerCase};
 
     @Override
     public IBaseAction<${entity}> getMapper() {
-        return ${table.mapperName}s;
+        return ${mapperNameLowerCase};
     }
 }
 #end
