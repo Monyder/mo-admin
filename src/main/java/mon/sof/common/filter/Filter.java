@@ -1,6 +1,7 @@
 package mon.sof.common.filter;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
@@ -10,6 +11,7 @@ import mon.sof.common.tool.token.JWTHelper;
 import mon.sof.common.tool.token.LoginRequired;
 import mon.sof.common.tool.token.SessionCache;
 import mon.sof.common.tool.token.UserTokenTypeEnum;
+import mon.sof.project.sysUser.entity.SysUser;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -51,9 +53,17 @@ public class Filter implements HandlerInterceptor {
         if(StrUtil.isEmpty(token)){
             throw new BaseException("token为空，请重新登录！");
         }
-        String tokenJson = JWTHelper.verifyToken4Login(token);
-        //TODO 开发中需要每次请求都需要更新Token
-        SessionCache.put(UserTokenTypeEnum.TOKEN.getName(),tokenJson);
+        String sysUserJson = JWTHelper.verifyToken4Login(token);
+        SysUser sysUser = JSONUtil.toBean(sysUserJson, SysUser.class);
+        if(ObjectUtil.isNull(sysUser)){
+            throw new BaseException("token解析失败！请重新登陆！");
+        }
+        String newSysUserJson = JSONUtil.toJsonStr(sysUser);
+        String newSysUserToken = JWTHelper.createToken4Login(newSysUserJson);
+        Cookie cookie = new Cookie(UserTokenTypeEnum.TOKEN.getName(),newSysUserToken);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        SessionCache.put(UserTokenTypeEnum.TOKEN.getName(),newSysUserJson);
         return true;
     }
     

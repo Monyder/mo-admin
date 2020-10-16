@@ -1,6 +1,7 @@
 package mon.sof.common.tool;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -78,8 +79,8 @@ public class Generator {
         gc.setAuthor(scanner("作者"));
         gc.setOpen(false);
         gc.setBaseResultMap(true);
-        mpg.setGlobalConfig(gc);
         gc.setDateType(DateType.ONLY_DATE);
+        mpg.setGlobalConfig(gc);
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setUrl(DATASOURCE_URL);
         // dsc.setSchemaName("public");

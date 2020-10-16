@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mon.sof.project.sysLog.mapper.SysLogMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="mon.sof.project.sysLog.entity.SysLog">
+        <id column="id" property="id" />
+        <result column="operator" property="operator" />
+        <result column="operating_time" property="operatingTime" />
+        <result column="ip" property="ip" />
+        <result column="func" property="func" />
+        <result column="remarks" property="remarks" />
+        <result column="spare_one" property="spareOne" />
+        <result column="spare_two" property="spareTwo" />
+        <result column="spare_three" property="spareThree" />
+    </resultMap>
+
+    <select id="queryByMultiTable" parameterType="map" resultMap="BaseResultMap">
+        <include refid="com.sof.mapper.base.conditionSql"/>
+    </select>
+</mapper>
