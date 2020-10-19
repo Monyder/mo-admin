@@ -14,6 +14,8 @@ spring:
       charset: utf-8
       force: true
       enabled: true
+    converters:
+      preferred-json-mapper: gson
   gson:
     date-format: 'yyyy-MM-dd HH:mm:ss'
     serialize-nulls: false
