@@ -94,7 +94,9 @@ public class SysUserController {
         SysUser sysUser = JSONUtil.toBean(sysUserJson, SysUser.class);
         if (ObjectUtil.isNotNull(sysUser)) {
             if (sysUser.getUsername().equals("admin")) {
-                sysuserService.removeById(id);
+                SysUser byId = sysuserService.getById(id);
+                if (byId.getUsername().equals("admin")) return ResultObj.resp("err","超级管理员账户不允许删除！");
+                sysuserService.delUser(id);
                 return ResultObj.resp();
             }
             return ResultObj.resp("err", "删除失败，没有权限删除用户！");
@@ -138,7 +140,8 @@ public class SysUserController {
             if (sysUsers.size() > 0) {
                 return ResultObj.resp("err", "此账号已存在，请输入新的账号！");
             }
-            sysuserService.save(bean);
+            bean.setPassword(SecureUtil.md5(bean.getPassword()));
+            sysuserService.addUser(bean);
             return ResultObj.resp();
         }
         return ResultObj.resp("err", "账号或密码为空！");
@@ -165,7 +168,6 @@ public class SysUserController {
         return ResultObj.resp("err", "修改失败，token已失效，请重新登陆！");
     }
 
-
     /**
      * 根据账号查询账用户是否存在
      *
@@ -181,6 +183,35 @@ public class SysUserController {
         List<SysUser> list = sysuserService.list(wrapper);
         if (list.size() == 0) return ResultObj.resp();
         else return ResultObj.resp("error", "账号已存在！");
+    }
+
+    /**
+     * 根据id查询用户信息
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-08-14 10:24:47
+     * @Param
+     * @Return
+     */
+    @PostMapping("/findUserById")
+    public ResultObj findUserById(@RequestParam Long id) {
+        return ResultObj.resp(sysuserService.getById(id));
+
+    }
+
+    /**
+     * 修改密码
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-11-16 16:38:26
+     * @Param
+     * @Return
+     */
+    @PostMapping("/upUserPassword")
+    public ResultObj upUserPassword(SysUser bean) {
+        bean.setPassword(SecureUtil.md5(bean.getPassword()));
+        sysuserService.updateById(bean);
+        return ResultObj.resp();
     }
 
 }

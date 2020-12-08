@@ -68,7 +68,7 @@ public class SysLogController {
                                         @RequestParam(defaultValue = "") String endOperatingTime) {
         PageHelper.startPage(pageNum, pageSize);
         QueryWrapper<SysLog> logQueryWrapper = new QueryWrapper<>();
-        if (StrUtil.isNotEmpty(name)) logQueryWrapper.like("name", name);
+        if (StrUtil.isNotEmpty(name)) logQueryWrapper.like("operator", name);
         if (StrUtil.isNotEmpty(ip)) logQueryWrapper.like("ip", ip);
         if (StrUtil.isNotEmpty(func)) logQueryWrapper.eq("func", func);
         if (StrUtil.isNotEmpty(startOperatingTime) || StrUtil.isNotEmpty(endOperatingTime))

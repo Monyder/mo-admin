@@ -6,6 +6,7 @@ import mon.sof.common.orm.IBaseAction;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import mon.sof.common.orm.AbstractBaseAction;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -24,5 +25,15 @@ public class SysUserService extends AbstractBaseAction<SysUserMapper, SysUser> {
     @Override
     public IBaseAction<SysUser> getMapper() {
         return sysuserMapper;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void addUser(SysUser bean) {
+        sysuserMapper.insert(bean);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void delUser(Long id) {
+        sysuserMapper.deleteById(id);
     }
 }

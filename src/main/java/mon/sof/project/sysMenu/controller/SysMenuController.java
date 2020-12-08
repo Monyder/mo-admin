@@ -2,6 +2,7 @@ package mon.sof.project.sysMenu.controller;
 
 
 import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import mon.sof.project.sysMenu.service.SysMenuService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -60,6 +62,7 @@ public class SysMenuController {
         SysUser user = JSONUtil.toBean(userJson, SysUser.class);
         SysRole byId = sysRoleService.getById(user.getRoleId());
         if (byId.getStatus() == 1) return ResultObj.resp("err", "当前登录用户角色已失效，请联系管理人员！");
+        if (StrUtil.isEmpty(byId.getMenuIds())) return ResultObj.resp("err","当前登录用户角色未赋予权限，请联系管理人员！");
         String[] menuIds = byId.getMenuIds().split(",");
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.in("id", menuIds);
