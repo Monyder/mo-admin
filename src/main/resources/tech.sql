@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2020-10-16 10:18:02
+Date: 2020-12-08 16:11:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `sys_log` (
   `spare_two` varchar(255) DEFAULT NULL,
   `spare_three` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=476 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=487 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_log
@@ -507,6 +507,17 @@ INSERT INTO `sys_log` VALUES ('472', 'admin', '2020-10-14 16:38:43', '192.168.1.
 INSERT INTO `sys_log` VALUES ('473', 'admin', '2020-10-14 16:40:17', '192.168.1.208', '角色管理', '添加角色', null, null, null);
 INSERT INTO `sys_log` VALUES ('474', 'admin', '2020-10-15 09:18:27', '192.168.1.219', '角色管理', '修改权限', null, null, null);
 INSERT INTO `sys_log` VALUES ('475', 'admin', '2020-10-15 09:18:31', '192.168.1.219', '角色管理', '修改权限', null, null, null);
+INSERT INTO `sys_log` VALUES ('476', 'admin', '2020-10-19 16:10:33', '192.168.1.208', '菜单功能', '新增菜单操作', null, null, null);
+INSERT INTO `sys_log` VALUES ('477', 'admin', '2020-12-08 14:59:04', '192.168.1.208', '角色管理', '修改权限', null, null, null);
+INSERT INTO `sys_log` VALUES ('478', 'admin', '2020-12-08 15:00:14', '192.168.1.208', '角色管理', '修改权限', null, null, null);
+INSERT INTO `sys_log` VALUES ('479', 'admin', '2020-12-08 15:05:43', '192.168.1.208', '角色管理', '添加角色', null, null, null);
+INSERT INTO `sys_log` VALUES ('480', 'admin', '2020-12-08 15:05:58', '192.168.1.208', '角色管理', '修改权限', null, null, null);
+INSERT INTO `sys_log` VALUES ('481', 'admin', '2020-12-08 15:06:03', '192.168.1.208', '角色管理', '修改权限', null, null, null);
+INSERT INTO `sys_log` VALUES ('482', 'admin', '2020-12-08 15:06:15', '192.168.1.208', '角色管理', '删除角色', null, null, null);
+INSERT INTO `sys_log` VALUES ('483', 'admin', '2020-12-08 15:06:38', '192.168.1.208', '角色管理', '添加角色', null, null, null);
+INSERT INTO `sys_log` VALUES ('484', 'admin', '2020-12-08 15:26:48', '192.168.1.208', '角色管理', '修改权限', null, null, null);
+INSERT INTO `sys_log` VALUES ('485', 'admin', '2020-12-08 15:27:36', '192.168.1.208', '角色管理', '删除角色', null, null, null);
+INSERT INTO `sys_log` VALUES ('486', 'admin', '2020-12-08 15:27:58', '192.168.1.208', '角色管理', '删除角色', null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -525,17 +536,18 @@ CREATE TABLE `sys_menu` (
   `spare_one` varchar(100) DEFAULT NULL COMMENT '预留字段1',
   `spare_two` varchar(100) DEFAULT NULL COMMENT '预留字段2',
   `spare_three` varchar(100) DEFAULT NULL COMMENT '预留字段3',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '系统管理', '0', '100', '0', null, null, 'el-icon-setting', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('2', '用户管理', '1', '110', '0', 'sysUserInfo', '/sys/sysUserInfo', 'el-icon-user', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('3', '日志管理', '1', '120', '0', 'logInfo', '/sys/logInfo', 'el-icon-s-release', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('4', '菜单管理', '1', '130', '0', 'menuInfo', '/sys/menuInfo', 'el-icon-s-operation', null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('5', '角色管理', '1', '140', '0', 'sysRoleInfo', '/sys/sysRoleInfo', 'el-icon-s-check', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('1', '根目录', '0', '0', '0', null, null, null, null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('2', '系统管理', '1', '200', '0', null, null, 'el-icon-setting', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('3', '用户管理', '2', '210', '0', 'sysUserInfo', '/sys/sysUserInfo', 'el-icon-user', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('4', '日志管理', '2', '220', '0', 'logInfo', '/sys/logInfo', 'el-icon-s-release', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('5', '菜单管理', '2', '230', '0', 'menuInfo', '/sys/menuInfo', 'el-icon-s-operation', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('6', '角色管理', '2', '240', '0', 'sysRoleInfo', '/sys/sysRoleInfo', 'el-icon-s-check', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -552,12 +564,12 @@ CREATE TABLE `sys_role` (
   `orders` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('2', 'Admin', '系统管理员', '0', '1,2,3,4,5', '0', null, '1');
+INSERT INTO `sys_role` VALUES ('2', 'Admin', '系统管理员', '0', '1,2,3,4,5,6', '0', null, '1');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -575,9 +587,9 @@ CREATE TABLE `sys_user` (
   `spare_two` varchar(255) DEFAULT NULL,
   `spare_three` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='系统用户表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('4', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '2', '张孝美', '15142055652', '管理员', null, null, null);
+INSERT INTO `sys_user` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '2', '张孝美', '15142055652', '管理员', null, null, null);
