@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Optional;
+import mon.sof.common.orm.Resp;
 import mon.sof.common.orm.ResultObj;
 import mon.sof.project.sysLog.advice.Log;
 import mon.sof.project.sysMenu.entity.SysMenu;
@@ -58,7 +59,7 @@ public class SysRoleController {
      * @Return
      */
     @PostMapping("/getSysRoleInfo")
-    public ResultObj getSysRoleInfo(
+    public Resp getSysRoleInfo(
             @RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "10") int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -72,7 +73,7 @@ public class SysRoleController {
             sysRole.setAuthorityName(RoleAuthorityEnum.findNameByCode(authority.or(0)));
         }
         PageInfo<SysRole> sysRolePageInfo = new PageInfo<>(list);
-        return ResultObj.resp(sysRolePageInfo);
+        return Resp.ok(sysRolePageInfo);
     }
 
 
@@ -85,16 +86,14 @@ public class SysRoleController {
      * @Return
      */
     @PostMapping("/findMenuInfo")
-    public ResultObj findMenuInfo(@RequestParam Long id) {
+    public Resp findMenuInfo(@RequestParam Long id) {
         SysRole byId = sysRoleService.getById(id);
         List<SysMenu> list = sysMenuService.list(new QueryWrapper<>());
         List<Tree<String>> trees = TreeNodeHandle.handleMenu(list);
-        ResultObj resultObj1 = new ResultObj();
         if (byId.getCode().equals("Admin")) {
-            resultObj1.setResult("admin");
+            return Resp.ok("admin",trees);
         }
-        resultObj1.setData(trees);
-        return ResultObj.resp(resultObj1);
+        return Resp.ok(trees);
     }
 
 
@@ -108,8 +107,8 @@ public class SysRoleController {
      */
     @Log(func = "角色管理", remarks = "修改权限")
     @PostMapping("/updateRoleMenu")
-    public ResultObj updateRoleMenu(@RequestParam Long id,
-                                    @RequestParam String menuIds) {
+    public Resp updateRoleMenu(@RequestParam Long id,
+                               @RequestParam String menuIds) {
         SysRole byId = sysRoleService.getById(id);
         if (StrUtil.isEmpty(menuIds)) {
             byId.setMenuIds(null);
@@ -117,7 +116,7 @@ public class SysRoleController {
             byId.setMenuIds(menuIds);
         }
         sysRoleService.updateById(byId);
-        return ResultObj.resp();
+        return Resp.ok();
 
     }
 
@@ -133,19 +132,19 @@ public class SysRoleController {
 
     @Log(func = "角色管理", remarks = "删除角色")
     @PostMapping("/deleteRole")
-    public ResultObj deleteRole(@RequestParam Long id) {
+    public Resp deleteRole(@RequestParam Long id) {
         QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>();
         sysUserQueryWrapper.eq("role_id", id);
         List<SysUser> list = sysUserService.list(sysUserQueryWrapper);
         if (list.size() > 0) {
-            return ResultObj.resp("err", "有用户绑定此角色，请先解绑用户角色后在删除角色！");
+            return Resp.err("有用户绑定此角色，请先解绑用户角色后在删除角色！");
         }
         SysRole byId = sysRoleService.getById(id);
         if (byId.getCode().equals("Admin")) {
-            return ResultObj.resp("err", "当前角色为超级管理员角色，无法删除此角色！");
+            return Resp.err("当前角色为超级管理员角色，无法删除此角色！");
         }
         sysRoleService.removeById(id);
-        return ResultObj.resp();
+        return Resp.ok();
     }
 
 
@@ -158,9 +157,9 @@ public class SysRoleController {
      * @Return
      */
     @PostMapping("/finRoleById")
-    public ResultObj finRoleById(@RequestParam Long id) {
+    public Resp finRoleById(@RequestParam Long id) {
         SysRole byId = sysRoleService.getById(id);
-        return ResultObj.resp(byId);
+        return Resp.ok(byId);
     }
 
 
@@ -174,17 +173,17 @@ public class SysRoleController {
      */
     @Log(func = "角色管理", remarks = "添加角色")
     @PostMapping("/addRole")
-    public ResultObj addRole(SysRole sysRole) {
+    public Resp addRole(SysRole sysRole) {
         sysRole.setStatus(RoleStatusEnum.findCodeByName(sysRole.getStatusName()));
         sysRole.setAuthority(RoleAuthorityEnum.findCodeByName(sysRole.getAuthorityName()));
         QueryWrapper<SysRole> sysRoleQueryWrapper = new QueryWrapper<>();
         sysRoleQueryWrapper.eq("code", sysRole.getCode());
         List<SysRole> list = sysRoleService.list(sysRoleQueryWrapper);
         if (list.size() > 0) {
-            return ResultObj.resp("err", "角色编码不允许重复");
+            return Resp.err("角色编码不允许重复");
         }
         sysRoleService.save(sysRole);
-        return ResultObj.resp();
+        return Resp.ok();
     }
 
     /**
@@ -197,12 +196,12 @@ public class SysRoleController {
      */
     @Log(func = "角色管理", remarks = "修改角色")
     @PostMapping("/upRole")
-    public ResultObj upRole(SysRole sysRole) {
+    public Resp upRole(SysRole sysRole) {
         sysRole.setStatus(RoleStatusEnum.findCodeByName(sysRole.getStatusName()));
         sysRole.setAuthority(RoleAuthorityEnum.findCodeByName(sysRole.getAuthorityName()));
-        if (sysRole.getCode().equals("Admin")) return ResultObj.resp("err", "当前角色是超级管理员角色，不允许修改！");
+        if (sysRole.getCode().equals("Admin")) return Resp.err("当前角色是超级管理员角色，不允许修改！");
         sysRoleService.updateById(sysRole);
-        return ResultObj.resp();
+        return Resp.ok();
     }
 
 

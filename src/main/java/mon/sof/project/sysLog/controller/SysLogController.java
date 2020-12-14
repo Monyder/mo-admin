@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import mon.sof.common.orm.Resp;
 import mon.sof.common.orm.ResultObj;
 import mon.sof.project.sysLog.entity.SysLog;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,13 +42,13 @@ public class SysLogController {
      * @Return
      */
     @PostMapping("/findAll")
-    public ResultObj findAll(@RequestParam(defaultValue = "0") int pageNum,
-                             @RequestParam(defaultValue = "10") int pageSize) {
+    public Resp findAll(@RequestParam(defaultValue = "0") int pageNum,
+                        @RequestParam(defaultValue = "10") int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         QueryWrapper<SysLog> logQueryWrapper = new QueryWrapper<>();
         logQueryWrapper.orderByDesc("operating_time");
         List<SysLog> list = syslogService.list(logQueryWrapper);
-        return ResultObj.resp(new PageInfo<>(list));
+        return Resp.ok(new PageInfo<>(list));
     }
 
 
@@ -59,7 +60,7 @@ public class SysLogController {
      * @Return
      */
     @PostMapping("/findLogByCondition")
-    public ResultObj findLogByCondition(@RequestParam(defaultValue = "0") int pageNum,
+    public Resp findLogByCondition(@RequestParam(defaultValue = "0") int pageNum,
                                         @RequestParam(defaultValue = "10") int pageSize,
                                         @RequestParam(defaultValue = "") String name,
                                         @RequestParam(defaultValue = "") String ip,
@@ -75,7 +76,7 @@ public class SysLogController {
             logQueryWrapper.between("operating_time", startOperatingTime, endOperatingTime);
         logQueryWrapper.orderByDesc("operating_time");
         List<SysLog> list = syslogService.list(logQueryWrapper);
-        return ResultObj.resp(new PageInfo<>(list));
+        return Resp.ok(new PageInfo<>(list));
     }
 
 }

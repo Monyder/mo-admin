@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import mon.sof.common.exception.BaseException;
+import mon.sof.common.orm.Resp;
 import mon.sof.common.orm.ResultObj;
 import mon.sof.common.tool.token.SessionCache;
 import mon.sof.common.tool.token.UserTokenTypeEnum;
@@ -57,18 +58,18 @@ public class SysMenuController {
      * @Return
      */
     @PostMapping("/getSysMenu")
-    public ResultObj getSysMenu() {
+    public Resp getSysMenu() {
         String userJson = SessionCache.get(UserTokenTypeEnum.TOKEN.getName());
         SysUser user = JSONUtil.toBean(userJson, SysUser.class);
         SysRole byId = sysRoleService.getById(user.getRoleId());
-        if (byId.getStatus() == 1) return ResultObj.resp("err", "当前登录用户角色已失效，请联系管理人员！");
-        if (StrUtil.isEmpty(byId.getMenuIds())) return ResultObj.resp("err","当前登录用户角色未赋予权限，请联系管理人员！");
+        if (byId.getStatus() == 1) return Resp.err("当前登录用户角色已失效，请联系管理人员！");
+        if (StrUtil.isEmpty(byId.getMenuIds())) return Resp.err("当前登录用户角色未赋予权限，请联系管理人员！");
         String[] menuIds = byId.getMenuIds().split(",");
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.in("id", menuIds);
         List<SysMenu> list = sysmenuService.list(sysMenuQueryWrapper);
         List<Tree<String>> trees = TreeNodeHandle.handleMenu(list);
-        return ResultObj.resp(trees);
+        return Resp.ok(trees);
     }
 
 
@@ -81,7 +82,7 @@ public class SysMenuController {
      * @Return
      */
     @PostMapping("/getSysMenuByNodePid")
-    public ResultObj getSysMenuByNodePid(@RequestParam(defaultValue = "0") int pageNum,
+    public Resp getSysMenuByNodePid(@RequestParam(defaultValue = "0") int pageNum,
                                          @RequestParam(defaultValue = "10") int pageSize,
                                          SysMenuVo ids) {
         PageHelper.startPage(pageNum, pageSize);
@@ -96,7 +97,7 @@ public class SysMenuController {
             }
         }
         PageInfo<SysMenu> sysMenuPageInfo = new PageInfo<>(list);
-        return ResultObj.resp(sysMenuPageInfo);
+        return Resp.ok(sysMenuPageInfo);
 
     }
 
@@ -110,14 +111,14 @@ public class SysMenuController {
      */
     @PostMapping("/addMenu")
     @Log(func = "菜单功能", remarks = "新增菜单操作")
-    public ResultObj addMenu(SysMenu sysMenu) {
+    public Resp addMenu(SysMenu sysMenu) {
         boolean save = sysmenuService.save(sysMenu);
         if (save) {
             List<SysMenu> list = sysmenuService.list(new QueryWrapper<>());
             this.initSysRoleMenuIds(list);
-            return ResultObj.resp(sysMenu);
+            return Resp.ok(sysMenu);
         }
-        return ResultObj.resp("err", "菜单新增失败！");
+        return Resp.err("菜单新增失败！");
     }
 
     private void initSysRoleMenuIds(List<SysMenu> list) throws BaseException {
@@ -143,9 +144,9 @@ public class SysMenuController {
      */
     @Log(func = "菜单功能", remarks = "修改菜单操作")
     @PostMapping("/updateMenu")
-    public ResultObj upDateMenu(SysMenu sysMenu) {
+    public Resp upDateMenu(SysMenu sysMenu) {
         sysmenuService.updateById(sysMenu);
-        return ResultObj.resp(sysMenu);
+        return Resp.ok(sysMenu);
     }
 
 
@@ -159,9 +160,9 @@ public class SysMenuController {
      */
     @Log(func = "菜单功能", remarks = "删除菜单操作")
     @PostMapping("/deleteMenu")
-    public ResultObj deleteMenu(@RequestParam Long id) {
+    public Resp deleteMenu(@RequestParam Long id) {
         sysmenuService.removeById(id);
-        return ResultObj.resp();
+        return Resp.ok();
     }
 
 }

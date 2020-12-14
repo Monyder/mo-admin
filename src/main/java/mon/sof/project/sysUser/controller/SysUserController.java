@@ -7,6 +7,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import mon.sof.common.exception.BaseException;
+import mon.sof.common.orm.Resp;
 import mon.sof.common.orm.ResultObj;
 import mon.sof.common.tool.token.JWTHelper;
 import mon.sof.common.tool.token.LoginRequired;
@@ -56,7 +57,7 @@ public class SysUserController {
      */
     @LoginRequired(value = UserTokenTypeEnum.TOKEN)
     @PostMapping("/login")
-    public ResultObj login(@RequestParam String username, @RequestParam String password, HttpServletRequest request, HttpServletResponse response) {
+    public Resp login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
         try {
             SysUser sysUser = sysuserService.getOne(new QueryWrapper<SysUser>().eq("username", username));
             if (ObjectUtil.isNotNull(sysUser)) {
@@ -67,16 +68,16 @@ public class SysUserController {
                     Cookie cookie = new Cookie(UserTokenTypeEnum.TOKEN.getName(), token);
                     cookie.setPath("/");
                     response.addCookie(cookie);
-                    return ResultObj.resp(sysUser);
+                    return Resp.ok(sysUser);
                 }
             }
 
         } catch (BaseException be) {
             be.getMessage();
 
-            return ResultObj.resp("err", "登陆失败，账号不唯一");
+            return Resp.err("登陆失败，账号不唯一");
         }
-        return ResultObj.resp("err", "账号或密码错误！");
+        return Resp.err("账号或密码错误！");
     }
 
 
@@ -89,19 +90,19 @@ public class SysUserController {
      * @Return
      */
     @PostMapping("/delUser")
-    public ResultObj delUser(@RequestParam Long id) {
+    public Resp delUser(@RequestParam Long id) {
         String sysUserJson = SessionCache.get(UserTokenTypeEnum.TOKEN.getName());
         SysUser sysUser = JSONUtil.toBean(sysUserJson, SysUser.class);
         if (ObjectUtil.isNotNull(sysUser)) {
             if (sysUser.getUsername().equals("admin")) {
                 SysUser byId = sysuserService.getById(id);
-                if (byId.getUsername().equals("admin")) return ResultObj.resp("err","超级管理员账户不允许删除！");
+                if (byId.getUsername().equals("admin")) return Resp.err("超级管理员账户不允许删除！");
                 sysuserService.delUser(id);
-                return ResultObj.resp();
+                return Resp.ok();
             }
-            return ResultObj.resp("err", "删除失败，没有权限删除用户！");
+            return Resp.err("删除失败，没有权限删除用户！");
         }
-        return ResultObj.resp("err", "token解析失败！");
+        return Resp.err("token解析失败！");
 
     }
 
@@ -115,13 +116,13 @@ public class SysUserController {
      * @Return
      */
     @PostMapping("/getAllUserInfo")
-    public ResultObj getAllUserInfo() {
+    public Resp getAllUserInfo() {
         QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>();
         List<SysUser> list = sysuserService.list(sysUserQueryWrapper);
         for (SysUser user : list) {
             user.setRoleIdName(sysRoleService.getById(user.getRoleId()).getName());
         }
-        return ResultObj.resp(list);
+        return Resp.ok(list);
     }
 
 
@@ -134,17 +135,17 @@ public class SysUserController {
      * @Return
      */
     @PostMapping("/addUser")
-    public ResultObj addUser(SysUser bean) {
+    public Resp addUser(SysUser bean) {
         if (StrUtil.isNotEmpty(bean.getUsername()) && StrUtil.isNotEmpty(bean.getPassword())) {
             List<SysUser> sysUsers = sysuserService.list(new QueryWrapper<SysUser>().eq("username", bean.getUsername()));
             if (sysUsers.size() > 0) {
-                return ResultObj.resp("err", "此账号已存在，请输入新的账号！");
+                return Resp.err("此账号已存在，请输入新的账号！");
             }
             bean.setPassword(SecureUtil.md5(bean.getPassword()));
             sysuserService.addUser(bean);
-            return ResultObj.resp();
+            return Resp.ok();
         }
-        return ResultObj.resp("err", "账号或密码为空！");
+        return Resp.err("账号或密码为空！");
 
     }
 
@@ -158,14 +159,14 @@ public class SysUserController {
      * @Return
      */
     @PostMapping("/upUser")
-    public ResultObj upUser(SysUser bean) {
+    public Resp upUser(SysUser bean) {
         String sysUserJson = SessionCache.get(UserTokenTypeEnum.TOKEN.getName());
         SysUser sysUser = JSONUtil.toBean(sysUserJson, SysUser.class);
         if (sysUser.getUsername().equals("admin")) {
             sysuserService.updateById(bean);
-            return ResultObj.resp();
+            return Resp.ok();
         }
-        return ResultObj.resp("err", "修改失败，token已失效，请重新登陆！");
+        return Resp.err("修改失败，token已失效，请重新登陆！");
     }
 
     /**
@@ -177,12 +178,12 @@ public class SysUserController {
      * @Return
      */
     @PostMapping("/findSysUserByUsername")
-    public ResultObj findSysUserByUsername(@RequestParam String username) {
+    public Resp findSysUserByUsername(@RequestParam String username) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
         wrapper.eq("username", username);
         List<SysUser> list = sysuserService.list(wrapper);
-        if (list.size() == 0) return ResultObj.resp();
-        else return ResultObj.resp("error", "账号已存在！");
+        if (list.size() == 0) return Resp.ok();
+        else return Resp.err("账号已存在！");
     }
 
     /**
@@ -194,8 +195,8 @@ public class SysUserController {
      * @Return
      */
     @PostMapping("/findUserById")
-    public ResultObj findUserById(@RequestParam Long id) {
-        return ResultObj.resp(sysuserService.getById(id));
+    public Resp findUserById(@RequestParam Long id) {
+        return Resp.ok(sysuserService.getById(id));
 
     }
 
@@ -208,10 +209,10 @@ public class SysUserController {
      * @Return
      */
     @PostMapping("/upUserPassword")
-    public ResultObj upUserPassword(SysUser bean) {
+    public Resp upUserPassword(SysUser bean) {
         bean.setPassword(SecureUtil.md5(bean.getPassword()));
         sysuserService.updateById(bean);
-        return ResultObj.resp();
+        return Resp.ok();
     }
 
 }
