@@ -50,4 +50,4 @@ logging:
       sof: debug
   file:
     max-history: 30
-    max-size: 512MB
+    max-size: 50MB
