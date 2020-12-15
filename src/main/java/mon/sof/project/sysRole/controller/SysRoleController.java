@@ -8,7 +8,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Optional;
 import mon.sof.common.orm.Resp;
-import mon.sof.common.orm.ResultObj;
 import mon.sof.project.sysLog.advice.Log;
 import mon.sof.project.sysMenu.entity.SysMenu;
 import mon.sof.project.sysMenu.service.SysMenuService;
@@ -91,7 +90,7 @@ public class SysRoleController {
         List<SysMenu> list = sysMenuService.list(new QueryWrapper<>());
         List<Tree<String>> trees = TreeNodeHandle.handleMenu(list);
         if (byId.getCode().equals("Admin")) {
-            return Resp.ok("admin",trees);
+            return Resp.ok("admin", trees);
         }
         return Resp.ok(trees);
     }

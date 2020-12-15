@@ -8,7 +8,6 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import mon.sof.common.exception.BaseException;
 import mon.sof.common.orm.Resp;
-import mon.sof.common.orm.ResultObj;
 import mon.sof.common.tool.token.JWTHelper;
 import mon.sof.common.tool.token.LoginRequired;
 import mon.sof.common.tool.token.SessionCache;
@@ -17,14 +16,12 @@ import mon.sof.project.sysRole.service.SysRoleService;
 import mon.sof.project.sysUser.entity.SysUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import mon.sof.project.sysUser.service.SysUserService;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
