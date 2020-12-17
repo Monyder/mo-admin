@@ -13,8 +13,7 @@ package mon.sof.common.tool;
 public class GeneratorMain {
 
     public static void main(String[] args) {
-        Generator generator = new Generator();
-        generator.run();
+        Generator.run();
     }
 
 }

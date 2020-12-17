@@ -29,7 +29,7 @@ public class BaseControllerAdvice {
      */
     @ExceptionHandler(value = BaseException.class)
     public Resp baseExceptionHander(BaseException be) {
-        LogFactory.get().error("BaseExceptionHander", be.getMessage());
+        LogFactory.get().error("BaseExceptionHander", be);
         return Resp.err(0, be.getMessage());
     }
 
@@ -45,7 +45,7 @@ public class BaseControllerAdvice {
 
     @ExceptionHandler(value = Exception.class)
     public Resp exceptionHander(Exception e) {
-        LogFactory.get().error("ExceptionHander", e.getMessage());
+        LogFactory.get().error("ExceptionHander", e);
         return Resp.err(HttpStatus.HTTP_INTERNAL_ERROR, "程序异常，请联系管理人员");
     }
 
