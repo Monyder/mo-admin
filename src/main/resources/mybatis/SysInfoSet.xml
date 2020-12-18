@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mon.sof.project.common.sysInfoSet.mapper.SysInfoSetMapper">
+<mapper namespace="mon.sof.project.sys.sysInfoSet.mapper.SysInfoSetMapper">
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="mon.sof.project.common.sysInfoSet.entity.SysInfoSet">
+    <resultMap id="BaseResultMap" type="mon.sof.project.sys.sysInfoSet.entity.SysInfoSet">
         <id column="id" property="id"/>
         <result column="code" property="code"/>
         <result column="name" property="name"/>
@@ -17,7 +17,7 @@
         <include refid="com.sof.mapper.base.conditionSql"/>
     </select>
 
-    <update id="createTable" parameterType="mon.sof.project.common.sysInfoSet.entity.SysInfoSet">
+    <update id="createTable" parameterType="mon.sof.project.sys.sysInfoSet.entity.SysInfoSet">
         <![CDATA[
             CREATE TABLE ${sysInfoSet.code} (
               `id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键',

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mon.sof.project.common.sysInfoItem.mapper.SysInfoItemMapper">
+<mapper namespace="mon.sof.project.sys.sysInfoItem.mapper.SysInfoItemMapper">
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="mon.sof.project.common.sysInfoItem.entity.SysInfoItem">
+    <resultMap id="BaseResultMap" type="mon.sof.project.sys.sysInfoItem.entity.SysInfoItem">
         <id column="id" property="id" />
         <result column="infoset_code" property="infosetCode" />
         <result column="code" property="code" />

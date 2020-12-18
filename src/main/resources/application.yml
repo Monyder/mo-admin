@@ -24,7 +24,6 @@ mybatis-plus:
   mapper-locations:
     - classpath*:mybatis/base/base.xml
     - classpath*:mybatis/*.xml
-  type-aliases-package: mon.sof.project.**.entity
   global-config:
     db-config:
       id-type: auto

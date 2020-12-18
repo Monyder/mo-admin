@@ -11,7 +11,7 @@ import mon.sof.common.tool.token.JWTHelper;
 import mon.sof.common.tool.token.LoginRequired;
 import mon.sof.common.tool.token.SessionCache;
 import mon.sof.common.tool.token.UserTokenTypeEnum;
-import mon.sof.project.common.sysUser.entity.SysUser;
+import mon.sof.project.sys.sysUser.entity.SysUser;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 

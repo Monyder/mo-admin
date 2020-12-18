@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mon.sof.project.common.sysMenu.mapper.SysMenuMapper">
+<mapper namespace="mon.sof.project.sys.sysMenu.mapper.SysMenuMapper">
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="mon.sof.project.common.sysMenu.entity.SysMenu">
+    <resultMap id="BaseResultMap" type="mon.sof.project.sys.sysMenu.entity.SysMenu">
         <id column="id" property="id" />
         <result column="node_name" property="nodeName" />
         <result column="node_pid" property="nodePid" />

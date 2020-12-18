@@ -167,9 +167,9 @@ public class Generator {
     private static PackageConfig setPackageConfig() {
         PackageConfig pc = new PackageConfig();
         if (scanner("是否是系统功能？------是：y     否：n").equals("y")) {
-            PRO_PATH = PRO_PATH + "common" + "/";
+            PRO_PATH = PRO_PATH + "sys" + "/";
             pc.setModuleName(scanner("模块名"));
-            pc.setParent("mon.sof.project.common");
+            pc.setParent("mon.sof.project.sys");
             return pc;
         }
         pc.setModuleName(scanner("模块名"));
