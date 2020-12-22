@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author zxm
  * @since 2020-12-17
  */
-public class SysInfoItem implements Serializable {
+public class SysInfoItem extends SysInfoItemVo implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
@@ -79,7 +79,7 @@ public class SysInfoItem implements Serializable {
     /**
      * 序号
      */
-    private Integer orders;
+    private Integer sort;
 
 
     public Long getId() {
@@ -178,11 +178,11 @@ public class SysInfoItem implements Serializable {
         this.databaseType = databaseType;
     }
 
-    public Integer getOrders() {
-        return orders;
+    public Integer getSort() {
+        return sort;
     }
 
-    public void setOrders(Integer orders) {
-        this.orders = orders;
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

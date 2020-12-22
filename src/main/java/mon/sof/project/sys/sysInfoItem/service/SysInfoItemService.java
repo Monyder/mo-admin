@@ -1,5 +1,6 @@
 package mon.sof.project.sys.sysInfoItem.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import mon.sof.common.tool.PublicInterfaceHandle;
 import mon.sof.project.sys.sysDataType.entity.SysDataType;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -67,7 +69,44 @@ public class SysInfoItemService extends AbstractBaseAction<SysInfoItemMapper, Sy
         sysInfoItem.setNullable(NullableEnum.YES.getCode());
         sysInfoItem.setRemark("主键");
         sysInfoItem.setIsDefault(IsDefaultEnum.YES.getCode());
-        sysInfoItem.setOrders(1);
+        sysInfoItem.setSort(1);
         sysinfoitemMapper.insert(sysInfoItem);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void addInfoItem(SysInfoItem sysInfoItem) {
+        sysInfoItem.setNullable(NullableEnum.NO.getCode());
+        sysinfoitemMapper.insert(sysInfoItem);
+        sysInfoItem.setSort(sysInfoItem.getId().intValue());
+        sysinfoitemMapper.updateById(sysInfoItem);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void createColumn(SysInfoItem sysInfoItem) {
+        SysDataType sysDataType = sysDataTypeService.getById(sysInfoItem.getDataTypeId());
+        String datatype = createDatatype(sysDataType.getCode(), sysInfoItem.getLength(), sysInfoItem.getPrecisionSet());
+        sysInfoItem.setFullDataType(datatype);
+        sysinfoitemMapper.createColumn(sysInfoItem);
+    }
+
+
+    private String createDatatype(String datatype, Integer clength, Integer precision) {
+        if (StrUtil.isEmpty(datatype)) {
+            return null;
+        }
+        if (!Optional.ofNullable(clength).isPresent()) {
+            return datatype;
+        }
+        StringBuffer buffer = new StringBuffer(datatype);
+        buffer.append("(");
+        buffer.append(clength);
+        if (Optional.ofNullable(precision).isPresent()) {
+            buffer.append(",");
+            buffer.append(precision);
+        }
+        buffer.append(")");
+        return buffer.toString();
+    }
+
+
 }

@@ -4,9 +4,11 @@
 <mapper namespace="mon.sof.project.sys.sysDataType.mapper.SysDataTypeMapper">
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="mon.sof.project.sys.sysDataType.entity.SysDataType">
-        <id column="id" property="id" />
-        <result column="code" property="code" />
-        <result column="sort" property="sort" />
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="default_length" property="defaultLength"/>
+        <result column="default_precision" property="defaultPrecision"/>
+        <result column="sort" property="sort"/>
     </resultMap>
 
     <select id="queryByMultiTable" parameterType="map" resultMap="BaseResultMap">

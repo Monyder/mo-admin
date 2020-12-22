@@ -2,11 +2,12 @@ package mon.sof.project.sys.sysDataType.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zxm
@@ -21,13 +22,23 @@ public class SysDataType implements Serializable {
     /**
      * 主键
      */
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
      * 数据类型编码
      */
     private String code;
+
+    /**
+     * 默认长度
+     */
+    private Integer defaultLength;
+
+    /**
+     * 默认精度
+     */
+    private Integer defaultPrecision;
 
     /**
      * 排序
@@ -59,12 +70,19 @@ public class SysDataType implements Serializable {
         this.sort = sort;
     }
 
-    @Override
-    public String toString() {
-        return "SysDataType{" +
-        "id=" + id +
-        ", code=" + code +
-        ", sort=" + sort +
-        "}";
+    public Integer getDefaultLength() {
+        return defaultLength;
+    }
+
+    public void setDefaultLength(Integer defaultLength) {
+        this.defaultLength = defaultLength;
+    }
+
+    public Integer getDefaultPrecision() {
+        return defaultPrecision;
+    }
+
+    public void setDefaultPrecision(Integer defaultPrecision) {
+        this.defaultPrecision = defaultPrecision;
     }
 }

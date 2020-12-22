@@ -45,7 +45,7 @@ public class SysInfoSetController {
      * @Param [pageNum, pageSize]
      * @Return mon.sof.common.orm.Resp
      */
-    @GetMapping("/findSysInfoSet")
+    @PostMapping("/findSysInfoSet")
     public Resp findSysInfoSet(@RequestParam(defaultValue = "1") Integer pageNum,
                                @RequestParam(defaultValue = "10") Integer pageSize) {
         QueryWrapper<SysInfoSet> wrapper = new QueryWrapper<>();
@@ -81,6 +81,26 @@ public class SysInfoSetController {
         sysinfosetService.addInfoSet(sysInfoSet);
         sysinfosetService.createTable(sysInfoSet);
         sysInfoItemService.addInfoItem(sysInfoSet.getCode());
+        return Resp.ok();
+    }
+
+    /**
+     * 修改信息集
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-12-18 10:57:20
+     * @Param [sysInfoSet]
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/upInfoSet")
+    public Resp upInfoSet(@RequestParam Long id,
+                          @RequestParam String name,
+                          @RequestParam String remark) {
+        SysInfoSet byId = sysinfosetService.getById(id);
+        byId.setName(name);
+        byId.setRemark(remark);
+        byId.setCreateTime(new Date());
+        sysinfosetService.updateById(byId);
         return Resp.ok();
     }
 

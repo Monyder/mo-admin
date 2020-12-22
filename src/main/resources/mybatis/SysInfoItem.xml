@@ -4,22 +4,32 @@
 <mapper namespace="mon.sof.project.sys.sysInfoItem.mapper.SysInfoItemMapper">
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="mon.sof.project.sys.sysInfoItem.entity.SysInfoItem">
-        <id column="id" property="id" />
-        <result column="infoset_code" property="infosetCode" />
-        <result column="code" property="code" />
-        <result column="name" property="name" />
-        <result column="data_type_id" property="dataTypeId" />
-        <result column="length" property="length" />
-        <result column="precision_set" property="precisionSet" />
-        <result column="nullable" property="nullable" />
-        <result column="code_type" property="codeType" />
-        <result column="remark" property="remark" />
-        <result column="is_default" property="isDefault" />
-        <result column="database_type" property="databaseType" />
-        <result column="orders" property="orders" />
+        <id column="id" property="id"/>
+        <result column="infoset_code" property="infosetCode"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="data_type_id" property="dataTypeId"/>
+        <result column="length" property="length"/>
+        <result column="precision_set" property="precisionSet"/>
+        <result column="nullable" property="nullable"/>
+        <result column="code_type" property="codeType"/>
+        <result column="remark" property="remark"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="database_type" property="databaseType"/>
+        <result column="sort" property="sort"/>
     </resultMap>
 
     <select id="queryByMultiTable" parameterType="map" resultMap="BaseResultMap">
         <include refid="com.sof.mapper.base.conditionSql"/>
     </select>
+
+    <update id="createColumn" parameterType="mon.sof.project.sys.sysInfoItem.entity.SysInfoItem">
+        <![CDATA[
+				alter table `${sysInfoItem.infosetCode}` add ${sysInfoItem.code} ${sysInfoItem.fullDataType}
+			]]>
+        <if test="'0'.toString()==sysInfoItem.nullable">not Null</if>
+        <![CDATA[
+				COMMENT '${sysInfoItem.remark}'
+			]]>
+    </update>
 </mapper>
