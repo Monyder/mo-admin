@@ -69,6 +69,15 @@ public class SysInfoItemController {
     @PostMapping("/addInfoItem")
     public Resp addInfoItem(SysInfoItem sysInfoItem) {
         SysDataType sysDataType = sysDataTypeService.getById(sysInfoItem.getDataTypeId());
+        if (sysDataType.getCode().equals("float") && !Optional.ofNullable(sysInfoItem.getLength()).isPresent()) {
+            return Resp.err("请输入字段长度！");
+        }
+        if (sysDataType.getCode().equals("float") && !Optional.ofNullable(sysInfoItem.getPrecisionSet()).isPresent()) {
+            return Resp.err("请输入字段精度！");
+        }
+        if (sysDataType.getCode().equals("float") && sysInfoItem.getLength() < sysInfoItem.getPrecisionSet()) {
+            return Resp.err("字段长度数值必须大于小数点精度数值！");
+        }
         if (sysDataType.getCode().equals("varchar") && !Optional.ofNullable(sysInfoItem.getLength()).isPresent()) {
             return Resp.err("请输入字段长度！");
         }
@@ -83,6 +92,66 @@ public class SysInfoItemController {
         sysinfoitemService.createColumn(sysInfoItem);
         return Resp.ok();
 
+    }
+
+    /**
+     * 删除字段
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-12-23 09:38:12
+     * @Param [id]
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/delInfoItemById")
+    public Resp delInfoItemById(@RequestParam Long id) {
+        SysInfoItem byId = sysinfoitemService.getById(id);
+        if (byId.getIsDefault() == 0) return Resp.err("系统字段不允许删除！");
+        sysinfoitemService.delInfoItemById(byId);
+        return Resp.ok();
+    }
+
+    /**
+     * 修改字段
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-12-23 11:36:32
+     * @Param [sysInfoItem]
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/upInfoItem")
+    public Resp upInfoItem(SysInfoItem sysInfoItem) {
+        if (sysInfoItem.getIsDefault() == 0) return Resp.err("系统字段不允许修改！");
+        sysinfoitemService.upInfoItem(sysInfoItem);
+        return Resp.ok();
+
+    }
+
+    /**
+     * 上（移动字段）
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-12-23 14:50:37
+     * @Param [id]
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/topMoveColumn")
+    public Resp topMoveColumn(@RequestParam Long id) {
+        SysInfoItem byId = sysinfoitemService.getById(id);
+        return sysinfoitemService.topMoveColumn(byId);
+    }
+
+    /**
+     * 下（移动字段）
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-12-23 14:50:37
+     * @Param [id]
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/bottomMoveColumn")
+    public Resp bottomMoveColumn(@RequestParam Long id) {
+        SysInfoItem byId = sysinfoitemService.getById(id);
+        return sysinfoitemService.bottomMoveColumn(byId);
     }
 
 }

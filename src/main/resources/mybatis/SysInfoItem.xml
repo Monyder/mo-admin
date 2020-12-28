@@ -23,6 +23,20 @@
         <include refid="com.sof.mapper.base.conditionSql"/>
     </select>
 
+    <!-- 查询上一条 -->
+    <select id="searchUpData" parameterType="map"  resultMap="BaseResultMap">
+			<![CDATA[
+				SELECT * FROM sys_info_item where sort = (select MAX(sort) from sys_info_item where sort < #{params.sort} and  infoset_code=#{params.infosetCode} )
+			]]>
+		</select>
+
+    <!-- 查询下一条  -->
+    <select id="searchDownData" parameterType="map"  resultMap="BaseResultMap">
+			<![CDATA[
+				select * from sys_info_item where sort = (select MIN(sort) from sys_info_item where sort > #{params.sort} and  infoset_code=#{params.infosetCode});
+			]]>
+		</select>
+
     <update id="createColumn" parameterType="mon.sof.project.sys.sysInfoItem.entity.SysInfoItem">
         <![CDATA[
 				alter table `${sysInfoItem.infosetCode}` add ${sysInfoItem.code} ${sysInfoItem.fullDataType}
@@ -32,4 +46,25 @@
 				COMMENT '${sysInfoItem.remark}'
 			]]>
     </update>
+
+    <update id="dropColumn" parameterType="map">
+			alter table `${params.upperInfosetCode}` drop column ${params.upperCode}
+	</update>
+
+    <update id="modifyColumn" parameterType="mon.sof.project.sys.sysInfoItem.entity.SysInfoItem">
+        <![CDATA[
+				alter table `${sysInfoItem.infosetCode}` modify ${sysInfoItem.code} ${sysInfoItem.fullDatatype}
+			]]>
+        <if test="'0'.toString()==sysInfoItem.nullable">not Null</if>
+        <![CDATA[
+				COMMENT '${sysInfoItem.remark}'
+			]]>
+    </update>
+
+    <!-- 修改数据表列的顺序 -->
+    <update id="updateColumnOrder" parameterType="map">
+			<![CDATA[
+				alter table ${params.upperInfosetCode} modify ${params.upperCode} ${params.fullDatatype} after ${params.fieldColumn};
+			]]>
+		</update>
 </mapper>

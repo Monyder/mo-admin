@@ -1,6 +1,8 @@
 package mon.sof.project.sys.sysInfoItem.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
@@ -44,11 +46,13 @@ public class SysInfoItem extends SysInfoItemVo implements Serializable {
     /**
      * 字段长度
      */
+    @TableField(strategy = FieldStrategy.IGNORED)
     private Integer length;
 
     /**
      * 小数点精确度
      */
+    @TableField(strategy = FieldStrategy.IGNORED)
     private Integer precisionSet;
 
     /**
