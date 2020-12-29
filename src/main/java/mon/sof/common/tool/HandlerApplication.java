@@ -1,5 +1,6 @@
 package mon.sof.common.tool;
 
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import io.undertow.server.DefaultByteBufferPool;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 import mon.sof.common.filter.Filter;
@@ -87,5 +88,19 @@ public class HandlerApplication implements WebMvcConfigurer, WebServerFactoryCus
     @Bean
     public Filter filter() {
         return new Filter();
+    }
+
+
+    /**
+     * 分页插件
+     *
+     * @Author zhangxiaomei
+     * @Date 2020-12-29 15:30:29
+     * @Param []
+     * @Return com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor
+     */
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor();
     }
 }

@@ -1,6 +1,7 @@
 package mon.sof.project.sys.sysInfoSet.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -47,9 +48,13 @@ public class SysInfoSetController {
      */
     @PostMapping("/findSysInfoSet")
     public Resp findSysInfoSet(@RequestParam(defaultValue = "1") Integer pageNum,
-                               @RequestParam(defaultValue = "10") Integer pageSize) {
+                               @RequestParam(defaultValue = "10") Integer pageSize,
+                               @RequestParam(defaultValue = "") String code) {
         QueryWrapper<SysInfoSet> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("create_time");
+        if(StrUtil.isNotEmpty(code)){
+            wrapper.like("code", code);
+        }
         IPage<SysInfoSet> page = new Page<>(pageNum, pageSize);
         IPage<SysInfoSet> pageList = sysinfosetService.page(page, wrapper);
         for (SysInfoSet record : pageList.getRecords()) {
