@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author zxm
@@ -48,15 +48,15 @@ public class SysMenuController {
     private SysRoleService sysRoleService;
 
     /**
-     * 前台获取菜单
+     * 系统获取菜单目录
      *
      * @Author zhangxiaomei
      * @Date 2020-08-12 13:30:27
      * @Param
      * @Return
      */
-    @PostMapping("/getSysMenu")
-    public Resp getSysMenu() {
+    @PostMapping("/getSysMenuByFuncType")
+    public Resp getSysMenu(@RequestParam(defaultValue = "") String funcType) {
         String userJson = SessionCache.get(UserTokenTypeEnum.TOKEN.getName());
         SysUser user = JSONUtil.toBean(userJson, SysUser.class);
         SysRole byId = sysRoleService.getById(user.getRoleId());
@@ -65,11 +65,61 @@ public class SysMenuController {
         String[] menuIds = byId.getMenuIds().split(",");
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.in("id", menuIds);
+        if (StrUtil.isNotEmpty(funcType)) {
+            sysMenuQueryWrapper.eq("func_type", funcType);
+        }
         List<SysMenu> list = sysmenuService.list(sysMenuQueryWrapper);
         List<Tree<String>> trees = TreeNodeHandle.handleMenu(list);
         return Resp.ok(trees);
     }
 
+    /**
+     * 开发者获取菜单详情信息
+     *
+     * @Author zhangxiaomei
+     * @Date 2021-01-07 15:07:09
+     * @Param []
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/getSysMenuByFuncTypeToDev")
+    public Resp getSysMenuByFuncTypeToDev() {
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+        List<SysMenu> list = sysmenuService.list(sysMenuQueryWrapper);
+        List<Tree<String>> trees = TreeNodeHandle.handleMenu(list);
+        return Resp.ok(trees);
+    }
+
+    /**
+     * 控制面板查询菜单
+     *
+     * @Author zhangxiaomei
+     * @Date 2021-01-04 16:05:31
+     * @Param []
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/getSysMenuByDev")
+    public Resp getSysMenuByDev() {
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+        sysMenuQueryWrapper.eq("func_type", "1");
+        List<SysMenu> list = sysmenuService.list(sysMenuQueryWrapper);
+        return Resp.ok(list);
+    }
+
+    /**
+     * 根据节点路径获取菜单
+     *
+     * @Author zhangxiaomei
+     * @Date 2021-01-07 14:15:13
+     * @Param [nodePath]
+     * @Return mon.sof.common.orm.Resp
+     */
+    @PostMapping("/getSysMenuByNodePath")
+    public Resp getSysMenuByNodePath(@RequestParam String nodePath) {
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+        sysMenuQueryWrapper.eq("node_path", nodePath);
+        SysMenu sysMenu = sysmenuService.getOne(sysMenuQueryWrapper);
+        return Resp.ok(sysMenu);
+    }
 
     /**
      * 获取菜单详情
@@ -81,8 +131,8 @@ public class SysMenuController {
      */
     @PostMapping("/getSysMenuByNodePid")
     public Resp getSysMenuByNodePid(@RequestParam(defaultValue = "0") int pageNum,
-                                         @RequestParam(defaultValue = "10") int pageSize,
-                                         SysMenuVo ids) {
+                                    @RequestParam(defaultValue = "10") int pageSize,
+                                    SysMenuVo ids) {
         PageHelper.startPage(pageNum, pageSize);
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.in("id", ids.getIds());

@@ -87,7 +87,9 @@ public class SysRoleController {
     @PostMapping("/findMenuInfo")
     public Resp findMenuInfo(@RequestParam Long id) {
         SysRole byId = sysRoleService.getById(id);
-        List<SysMenu> list = sysMenuService.list(new QueryWrapper<>());
+        QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+        sysMenuQueryWrapper.eq("func_type", "0");
+        List<SysMenu> list = sysMenuService.list(sysMenuQueryWrapper);
         List<Tree<String>> trees = TreeNodeHandle.handleMenu(list);
         if (byId.getCode().equals("Admin")) {
             return Resp.ok("admin", trees);

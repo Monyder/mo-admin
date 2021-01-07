@@ -12,6 +12,7 @@
         <result column="node_path" property="nodePath" />
         <result column="node_component" property="nodeComponent" />
         <result column="node_iconcls" property="nodeIconcls" />
+        <result column="func_type" property="funcType" />
         <result column="remarks" property="remarks" />
         <result column="spare_one" property="spareOne" />
         <result column="spare_two" property="spareTwo" />

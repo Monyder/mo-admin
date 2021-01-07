@@ -58,6 +58,11 @@ public class SysMenu extends SysMenuVo implements Serializable {
     private String nodeIconcls;
 
     /**
+     * 功能类别:0：系统功能 1：开发功能
+     */
+    private String funcType;
+
+    /**
      * 备注
      */
     private String remarks;
@@ -142,6 +147,14 @@ public class SysMenu extends SysMenuVo implements Serializable {
         this.nodeIconcls = nodeIconcls;
     }
 
+    public String getFuncType() {
+        return funcType;
+    }
+
+    public void setFuncType(String funcType) {
+        this.funcType = funcType;
+    }
+
     public String getRemarks() {
         return remarks;
     }
@@ -172,23 +185,5 @@ public class SysMenu extends SysMenuVo implements Serializable {
 
     public void setSpareThree(String spareThree) {
         this.spareThree = spareThree;
-    }
-
-    @Override
-    public String toString() {
-        return "SysMenu{" +
-                "id=" + id +
-                ", nodeName=" + nodeName +
-                ", nodePid=" + nodePid +
-                ", roderCode=" + roderCode +
-                ", nodeType=" + nodeType +
-                ", nodePath=" + nodePath +
-                ", nodeComponent=" + nodeComponent +
-                ", nodeIconcls=" + nodeIconcls +
-                ", remarks=" + remarks +
-                ", spareOne=" + spareOne +
-                ", spareTwo=" + spareTwo +
-                ", spareThree=" + spareThree +
-                "}";
     }
 }
