@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import mon.sof.project.sys.sysMenu.service.SysMenuService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -102,7 +103,12 @@ public class SysMenuController {
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.eq("func_type", "1");
         List<SysMenu> list = sysmenuService.list(sysMenuQueryWrapper);
-        return Resp.ok(list);
+        List<SysMenu> sysMenus = new ArrayList<>();
+        for (SysMenu sysMenu : list) {
+            if (sysMenu.getNodePid() == 1) continue;
+            sysMenus.add(sysMenu);
+        }
+        return Resp.ok(sysMenus);
     }
 
     /**
